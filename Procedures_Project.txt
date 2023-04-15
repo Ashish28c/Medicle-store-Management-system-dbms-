@@ -1,0 +1,139 @@
+Procedures
+
+Procedure -1;
+--------------
+display quantity of given item name , pharmacy.
+
+
+create or replace procedure quantity (pro varchar2, medShop int) as
+	cursor c_quantity is select sale.quantity as qty from sale where sale.med_shop_id = medShop and sale.code in ( select equipment.code from equipment where equipment.product_name = pro);
+
+	r_quantity c_quantity%rowtype;
+begin 
+	for r_quantity in c_quantity loop
+		dbms_output.put_line (r_quantity.qty);
+	end loop;
+end;
+
+declare
+begin
+quantity('Crocin',1);
+end;
+/
+
+
+Procedure -2;
+-------------
+
+create or replace procedure sum_amount (medShopId int) as
+	cursor c_sum_amount is select sum(amount) as sum from bill where bill.med_shop_id = medShopId;
+	r_sum_amount c_sum_amount%rowtype;
+
+begin 
+	for r_sum_amount in c_sum_amount loop
+		dbms_output.put_line(r_sum_amount.sum);
+	end loop;
+end;
+
+declare
+begin
+sum_amount(1);
+end;
+/
+
+Procedure -3;
+--------------
+
+create or replace procedure patient_names (doctor_id int) as
+	cursor c_patient_names is select customer.name from customer where customer.pat_id in (select prescribe.pat_id from prescribe where prescribe.doc_id = doctor_id);
+
+	r_patient_names c_patient_names%rowtype;
+
+begin 
+	for r_patient_names in c_patient_names loop
+		dbms_output.put_line(r_patient_names.name);
+	end loop;
+end;
+
+declare
+begin
+patient_names(105);
+end;
+/
+
+
+Procedure -4;
+---------------
+
+create or replace procedure employee_details (medShopId int) as
+	cursor c_employee_details is select employee.name,employee.mobile_no from employee where employee.med_shop_id in (select med_shop.med_shop_id from med_shop where med_shop.med_shop_id = medShopId);
+	r_employee_details c_employee_details%rowtype;
+
+begin 
+	for r_employee_details in c_employee_details loop
+		dbms_output.put_line(r_employee_details.name||' '||r_employee_details.mobile_no);
+	end loop;
+end;
+
+declare
+begin
+employee_details(3);
+end;
+/
+
+
+Procedure -5;
+---------------
+
+create or replace procedure med_details (ptName varchar2) as
+	cursor c_med_details is select product from bill where pat_name = ptName;
+	r_med_details c_med_details%rowtype;
+
+begin 
+	for r_med_details in c_med_details loop
+		dbms_output.put_line(r_med_details.product);
+	end loop;
+end;
+
+declare
+begin
+med_details('Dhruvi');
+end;
+/
+
+
+
+Procedure -6;
+--------------
+create or replace procedure loyal (pharID int) as
+	cursor c_loyal is select pat_name from bill where med_shop_id = pharID;
+	r_loyal c_loyal%rowtype;
+begin 
+	for r_loyal in c_loyal loop
+		dbms_output.put_line(r_loyal.pat_name);
+	end loop;
+end;
+/
+
+declare
+begin
+loyal(3);
+end;
+/
+
+
+create or replace procedure pr1(bname Brand.brand_name%type, per int) as
+
+cursor c_prod is select brand_name, category_name, product_price from brand join product on product.product_brand = brand.brand_id join category using (category_type_id)  where brand_name = 'bname';
+
+r_prod c_prod%rowtype;
+begin
+	dbms_output.put_line('brand name:-'||r_prod.brand_name);
+	dbms_output.put_line('Category name :'||r_prod.category_name);
+	dbms_output.put_line('Update price :'||(r_prod.product_price * per)/100);	
+end;
+/
+
+
+history ss remaining
+

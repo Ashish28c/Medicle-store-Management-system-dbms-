@@ -1,0 +1,103 @@
+create table med_shop
+(
+med_shop_id integer,
+name varchar2(20),
+city varchar2(20),
+email_id varchar2(20),
+phone number(10),
+constraint pk_med_shop primary key(med_shop_id));
+
+create table doctor
+(
+doc_id number(3),
+doc_name varchar2(20),
+speciality varchar2(20),
+age number(2) not null,
+mobile integer,
+gender varchar2(6),
+constraint pk_doctor primary key (doc_id));
+
+create table customer
+(
+pat_id number(3),
+name varchar2(20),
+gender varchar2(6),
+city varchar2(20),
+phone integer,
+age number(2) not null,
+constraint pk_customer primary key(pat_id),
+doc_id references doctor(doc_id) on delete set null);
+
+create table equipment
+(
+code number(5) primary key,
+product_name varchar2(20),
+product_Type varchar2(20),
+mfg_date date,
+exp_date date,
+price number(10,2),
+doc_id references doctor(doc_id) on delete set null
+);
+
+create table supplier
+(
+name varchar2(20),
+city varchar2(20),
+mobile integer primary key,
+email varchar2(20),
+med_shop_id references med_shop(med_shop_id) on delete set null);
+
+alter table supplier rename column mobile to mobile_no;
+
+create table employee
+(
+name varchar2(20),
+city varchar2(20),
+join_date date,
+mobile_no integer,
+salary number(10),
+age number(2),
+gender varchar2(1),
+med_shop_id references med_shop(med_shop_id) on delete set null,
+constraint pk_employee primary key (mobile_no)
+);
+
+create table hospital
+(
+hospital_id number(3),
+name varchar2(20),
+email varchar2(40),
+phone integer not null,
+city varchar2(20),
+med_shop_id references med_shop(med_shop_id) on delete set null,
+constraint pk_hospital primary key (hospital_id)
+);
+
+create table bill
+(
+bill_id number(3),
+date_of_sale date,
+age number(3),
+pat_name varchar2(20),
+mobile integer,
+city varchar2(20),
+product varchar2(20),
+amount number(10,2),
+med_shop_id references med_shop(med_shop_id) on delete set null,
+constraint pk_bill primary key(bill_id)
+);
+
+create table works
+(
+med_shop_id references med_shop(med_shop_id) on delete cascade,
+start_date date,
+end_date date,
+constraint pk_works primary key(med_shop_id));
+
+create table prescribe
+(
+date_of_presc date,
+medicine varchar2(20),
+doc_id references doctor(doc_id) on delete cascade,
+pat_id references customer(pat_id) on delete cascade,
+constraint pk_prescribe primary key(pat_id,doc_id));

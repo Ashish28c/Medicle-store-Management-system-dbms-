@@ -1,0 +1,45 @@
+project changes
+
+
+pid= pat_id
+
+did= doc_id
+
+hid= hospital_id
+
+medequipment= equipment
+
+
+
+pharmacy= med_shop
+
+phid= med_shop_id
+
+bid= bill_id
+
+dop= presc_date
+
+fax= email
+
+delete sex from employee
+
+delete cid from equipment
+
+dob= bill_date
+
+pname= pat_name
+
+shuffle in bill table
+
+add owner table=> primary key= owner_id foreign key=> med_shop_id
+
+sex=gender
+
+doc_id affects equipment prescription(change datatype)
+
+
+
+
+
+
+

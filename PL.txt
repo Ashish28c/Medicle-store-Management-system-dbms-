@@ -1,0 +1,25 @@
+PL/SQL (Procedural language/Structured Query Language)
+
+Block: named and unnamed
+
+declare 
+      declaration statements
+begin
+      executable statements
+exception
+      exception handling
+end;
+/
+
+declare
+      i int:= 0; (colon for assignment and = for comparison)
+      j int;
+      dt date:= sysdate;
+      dt1 date:= '12-oct-1970';
+begin
+      i:=months_between(dt,dt1);
+      dbms_output.put_line('Months between '||dt|| 'and' ||dt1|| '=' ||i);
+end;
+/
+
+set serveroutput on

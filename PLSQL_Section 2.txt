@@ -1,0 +1,438 @@
+
+
+
+
+PL/SQL(Procedural Language/Structured Query Language)
+
+Block : named and unnamed
+
+
+declare
+        declaration statements
+begin
+        executable statements
+exception
+        exception handling
+end;
+/
+
+
+
+SQL>set serveroutput on
+
+create or replace procedure test1(dt date, dt1 date) as
+        i float:=0;
+        j int; 
+begin
+        i:=months_between(dt,dt1);
+        dbms_output.put_line('Months between '||dt||'and '||dt1||'= '||round(i,2));
+        if (i>12) then
+           dbms_output.put_line('Eligible for vaccine');
+        elsif (i<=12 and i>=6) then
+            dbms_output.put_line('Eligible for vaccine after six months');
+        else 
+            dbms_output.put_line('Not Eligible for vaccine');
+        end if;
+        for j in 10..1 loop
+               dbms_output.put_line(j);
+        end loop;      
+end;
+/ 
+-----------------------calling block to execute the procedute-------------
+declare
+        d date:='&d';
+        d1 date:='&d1';
+begin
+        test1(d,d1);
+end;
+/  
+--------------------------------------------
+declare
+        i float:=0;
+        j int;
+        dt date;
+        dt1 date; 
+begin
+        for j in reverse 1..10 loop step 2
+               dbms_output.put_line(j);
+        end loop;  
+        
+        j:=1; --initialization
+        while (j<=10) loop--check condition 
+                dbms_output.put_line(j);
+		j:=j+1;  --inc/dec
+        end loop;       
+end;
+/
+
+
+--syntax to define the cursor
+
+--cursor <cursor_name> is <select_query>;
+--cursor attributes
+       %notfound -- returns true if there are no records left in the cursor
+       %found   -- returns true if there is at least one record in cursor  
+       %isopen  -- returns true if cursor is open
+       %type    --define datatype which is similar to specific field's datatype 
+       %rowtype --define record variable
+
+1. declaration of cursor
+2. open cursor
+3. Within the loop fetch one by one record
+4. close cursor
+  
+declare
+        cursor c_batsman is select * from batsman;
+        r_batsman c_batsman%rowtype;
+begin
+        open c_batsman; 
+        loop
+            fetch c_batsman into r_batsman;
+            if c_batsman%notfound then 
+               exit;
+            end if;
+            dbms_output.put_line(r_batsman.name||'   '||r_batsman.country);
+                 
+        end loop;
+        close c_batsman;
+end;
+/   
+ 
+declare
+        i batsman.batsman_id%type:=&i; 
+        cursor c_batsman is select * from batsman where batsman_id=i;
+        r_batsman c_batsman%rowtype;
+begin
+        for r_batsman in c_batsman loop      
+            dbms_output.put_line(r_batsman.name||'   '||r_batsman.country);
+        end loop;
+end;
+/
+
+======================================Creating Function
+
+create or replace function test2(dt1 date, dt2 date) return float as
+        i float:=0;
+        j int; 
+begin
+        i:=months_between(dt1,dt2);
+        return i;
+end;
+/        
+
+
+-------------Executing function using calling block
+
+declare
+         d1 date:='&d1';
+         d2 date:='&d2';
+         diff float;
+begin
+         diff:=test2(d1,d2);              
+         dbms_output.put_line('Months between '||d1||'and '||d2||'= '||diff);
+end;
+
+------------Executing function using SELECT statement
+
+select test2('12-jan-2021','12-mar-2020') from dual;
+
+
+create or replace function count_batsman return int as
+        cursor c_batsman is select count(*) cnt from batsman;
+        r_batsman c_batsman%rowtype;
+begin
+        open c_batsman; 
+        fetch c_batsman into r_batsman;
+        return r_batsman.cnt;
+        close c_batsman;
+end;
+/   
+
+
+create or replace function disp_batsman return varchar2 as
+        cursor c_batsman is select * from batsman;
+        r_batsman c_batsman%rowtype;
+begin
+        open c_batsman; 
+        fetch c_batsman into r_batsman;
+        return r_batsman.batsman_id||' '||r_batsman.name||' '||r_batsman.country;
+        close c_batsman;
+end;
+/
+
+connect sys as sysdba
+pwd:
+
+sql>grant create function to shefali;
+
+create or replace function disp_batsman return varchar2 as
+        cursor c_batsman is select * from batsman;
+        r_batsman c_batsman%rowtype;
+        rec varchar2(5000);
+begin
+        for r_batsman in c_batsman loop 
+          rec:=rec||chr(10)||r_batsman.batsman_id||' '||r_batsman.name||' '||r_batsman.country;
+        end loop;
+        return rec;
+end;
+/
+ 
+======================
+
+declare
+        cursor c_batsman is select * from batsman;
+        r_batsman c_batsman%rowtype;
+        cursor c_rating(bid batsman.batsman_id%type) is select * from rating                   where batsman_id=bid;
+        r_rating c_rating%rowtype;
+begin
+        open c_batsman; 
+        loop
+            fetch c_batsman into r_batsman;
+            if c_batsman%notfound then 
+               exit;
+            end if;
+            dbms_output.put_line('Rating details of : '||r_batsman.name);
+            open c_rating(r_batsman.batsman_id);
+            loop
+                 fetch c_rating into r_rating;
+                 if c_rating%notfound then 
+                        exit;
+                 end if;
+                 dbms_output.put_line(r_rating.rating_in||'  '||r_rating.ratings); 
+            end loop; 
+            close c_rating;
+        end loop;
+        close c_batsman;
+end;
+/
+
+=================================
+
+
+declare
+        cursor c_batsman is select * from batsman;
+        r_batsman c_batsman%rowtype;
+        cursor c_rating(bid batsman.batsman_id%type) is select * from rating                   where batsman_id=bid;
+        r_rating c_rating%rowtype;
+begin
+        for r_batsman in c_batsman loop
+            dbms_output.put_line('Rating details of : '||r_batsman.name);
+            for r_rating in c_rating(r_batsman.batsman_id) loop
+                dbms_output.put_line(r_rating.rating_in||'  '||r_rating.ratings); 
+            end loop; --end of rating cursor
+        end loop; --end of batsman cursor
+end;
+/
+
+=============================Trigger
+
+Trigger is fired automatically when user does data manipulation(Insert/Delete/Update).
+
+Advantages
+
+1. Data Validation
+2. We may delete child records when parent record is deleted.
+3. Security constraints
+4. Autocalculation and insertion of record in other table
+
+========================
+2 types of trigger
+
+1. statement level trigger : it gets fired when the statement is executed
+2. row level trigger : it gets fired for each row (for each row)
+
+   :new and :old
+                        empid,ename,ebdate
+insert into emp values(1,'abc','12-dec-1999');
+
+   insert ==> :new
+   delete ==> :old
+   update ==> :old and :new
+
+==========================================
+before insert
+after insert
+before delete
+after delete
+before update
+after update
+
+
+=================
+create table project (groupno int,proj_title varchar2(100), rollno1 int, rollno2 int, rollno3 int);
+
+create or replace trigger chk_title before insert or update on project
+for each row
+begin
+      if (:new.proj_title is null) then
+              raise_application_error(-20001,'Project Title can''t be null....');  
+      end if;  
+end;
+/
+
+===============
+
+insert into student101 values(1940208,'sy','Krina');
+insert into student101 values(1940181,'sy','Arti');
+insert into student101 values(1940145,'sy','Anar');
+
+
+insert into student101 values(1940041,'sy','Deepang');
+insert into student101 values(1940006,'sy','Vats');
+
+insert into project values(1,'Student Management System',1940208,1940181,1940145);
+insert into project values(2,'Library Management System',1940041,1940006,null);
+
+============Delete child records from project table when parent record is deleted from the student101 table.
+
+
+create or replace trigger del_rec before delete on student101
+for each row
+begin
+      delete from project where rollno1=:old.stdno or rollno2=:old.stdno or rollno3=:old.stdno;
+end;
+
+
+=============================
+
+create or replace trigger del_rec1 before delete on student101
+for each row
+begin
+      update project set rollno1=null where rollno1=:old.stdno; 
+      update project set rollno2=null where rollno2=:old.stdno;
+      update project set rollno3=null where rollno3=:old.stdno; 
+end;
+
+===========================
+
+alter table student add s1_marks int add s2_marks int add s3_marks int; 
+
+create or replace trigger ins_res after insert on student101
+for each row
+declare
+        t int;
+        p float;
+        g varchar2(2);
+        s varchar2(10);
+begin
+        t:=:new.s1_marks+:new.s2_marks+:new.s3_marks; 
+        p:=t*100/150;
+        if (:new.s1_marks<18 or :new.s2_marks<18 or :new.s3_marks<18) then
+             s:='Fail';
+             g:='F';
+        else
+             s:='Pass';
+             if (p>=80) then
+                  g:='A';
+             elsif (p<80 and p>=60) then
+                  g:='B';
+             else
+                  g:='C';
+             end if;  
+        end if;
+        insert into result101 values(:new.stdno,t,p,g,s);        
+end;
+/
+
+
+=======================
+
+create or replace trigger tr_user after insert or delete or update on student101
+for each row
+begin
+   if (to_char(sysdate,'dy')='sat' or to_char(sysdate,'dy')='tue') then
+      if (inserting) then
+          insert into track values(user,sysdate,'Insert');
+      elsif (deleting) then
+           insert into track values(user,sysdate,'Delete');
+      else
+          insert into track values(user,sysdate,'Update');
+      end if;
+   end if;
+end;
+/
+
+====================================
+
+
+
+create table project (groupno int,proj_title varchar2(100), rollno1 int, rollno2 int, rollno3 int);
+
+update project set proj_title='HRMS' where groupno=1;
+
+
+
+create table student101(stdno int primary key,classcode varchar2(20),stdname varchar2(30));
+
+alter table project add constraint fk1 foreign key(rollno1) references student101(stdno);
+
+
+
+alter table project add constraint fk2 foreign key(rollno2) references student101(stdno);
+
+
+alter table project add constraint fk3 foreign key(rollno3) references student101(stdno);
+
+
+alter table student add s1_marks int add s2_marks int add s3_marks int;
+
+
+alter table student101 add s1_marks int add s2_marks int add s3_marks int;
+
+
+create table result101(stdno int,total int,perc float,grade varchar2(2),status varchar2(10));
+
+
+SQL> create table track(username varchar2(20),dt date, op varchar2(10));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	

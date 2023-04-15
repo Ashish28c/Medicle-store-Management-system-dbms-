@@ -1,0 +1,300 @@
+
+
+class(classcode,classdesc)
+student(classcode,stdname,stdno,...)
+
+create table patient2021(patid int primary key,
+                     patname char(20) not null,
+                     bloodgroup char(5) default 'o+ve',
+                     contact int unique,
+                     email char(50) check(length(email)>=10)); 
+
+
+create table doctor2021(docid int primary key,
+                     docname char(20));
+
+
+create table appoi_ntment(doctorid int references doctor2021(docid),
+                         patientid int references patient2021(patid),
+                         primary key(doctorid,patientid),
+                         appo_date timestamp);
+
+
+create table visit(visitid int primary key,
+                   patid int,
+                   docid int,
+                   foreign key(patid,docid) references appoi_ntment(doctorid,patientid)
+                   );
+
+insert into patient2021 values(1,'xyz',default,9999999999,'xyz@gmail.com');
+
+alter table patient2021 rename column patname to patientname;
+
+alter table patient2021 modify patname char(50);
+
+alter table patient2021 add birthdate date;
+
+alter table patient2021 drop constraint sys_c001111;
+
+
+
+
+select distinct fieldname/*/function/expression
+from tablename/subquery
+where condition on record level
+group by fieldnames/expression/function 
+having  condition on group/cond on aggregate function
+order by fieldname/expression/function  
+
+--------------------string functions
+
+select upper(classcode),lower(classcode),trim(classcode),initcap(classcode),
+       substr(classcode,2,2) from student2021; 
+
+
+-----------------------date formats
+
+select stdno,to_char(birthdate,'dd'),to_char(birthdate,'mm'),
+      to_char(birthdate,'dd-mm'),to_char(birthdate,'month'),
+      to_char(birthdate,'dd month yyyy'),
+  to_char(birthdate,'ddth month yyyy'),
+  to_char(birthdate,'ddsp'),
+  to_char(birthdate,'ddthsp') from student2021;
+
+
+
+special operators
+-----------------
+in - select * from patient2021 where patid in (select patientid from 
+                          appoi_ntment); 
+
+exists - select * from patient2021 where not exists (select * from appoi_ntment);
+
+like - select * from patient2021 where patname like 's%' or patname like 'S%';
+       select * from patient2021 where patname like '_itali'; 
+       select * from subject where subname like '%data%';  
+
+between - select * from patient2021 where patid between 1 and 10;
+
+          select * from patient2021 where patid>=1 and patid<=10;
+is null - select * from patient2021 where patname is null;
+
+
+
+create table doctor(docid int primary key,
+                    docname char(40) not null
+                    );    
+
+
+create table appnt(appdate timestamp,
+                   doctorid int references doctor(docid),
+                   patid int references patient(patid),
+                   primary key(appdate,doctorid,patid));
+
+ 
+create table visit(visitid int,
+                   adt timestamp,
+                   docid int,
+                   patid int, 
+                   foreign key(adt,docid,patid) references appnt(appdate,doctorid,patid));
+
+
+
+insert into patient values(105,null,'AB+',9999999,'xyz@gmail.com');
+
+delete from patient where patid=104;
+
+update patient set patid=104 where patid=105;
+
+constraints : Table level and Field level constraints
+------------
+
+
+1. Primary key 
+2. Foreign key
+
+3. Unique
+4. Not null
+5. Check
+6. Default
+
+
+
+
+select constraint_name,constraint_type from user_constraints where table_name='patient';
+
+patient(patid), doctor(docid), appointment(patid,docid)
+
+Types of Joins
+==============
+
+1. equi join/simple join/natural join (=)
+
+select doctor.docid||' '||trim(doctor.docname)||' '||appnt.appdate||' '||appnt.docid from doctor,appnt where doctor.docid=appnt.docid;
+
+   
+select * from doctor natural join appnt;
+
+
+2. multiple join
+
+select distinct docname,patname from doctor,patient,appnt where doctor.docid=appnt.docid and appnt.patid=patient.patid;
+
+3. self join
+
+Display doctor names whose names are same, but genders are different.
+
+select distinct d1.docname from doctor d1, doctor d2
+where d1.gender<>d2.gender and d1.docname=d2.docname;
+   
+
+4. inner join
+
+select * from doctor inner join appnt on doctor.docid=appnt.docid; 
+
+5. outer join - full join, left join, right join
+
+select doctor.docid||' '||doctor.docname||' '||doctor.gender||' '||
+appnt.appdate||' '||appnt.docid||' '||appnt.patid from doctor left join appnt on doctor.docid=appnt.docid; 
+
+select doctor.docid||' '||doctor.docname||' '||doctor.gender||' '||
+appnt.appdate||' '||appnt.docid||' '||appnt.patid from doctor right join appnt on doctor.docid=appnt.docid; 
+
+select doctor.docid||' '||doctor.docname||' '||doctor.gender||' '||
+appnt.appdate||' '||appnt.docid||' '||appnt.patid from doctor full join appnt on doctor.docid=appnt.docid; 
+
+6. cross join/cartesian product
+
+select * from doctor,appnt;
+
+
+7. intersection
+
+select docid,docname from doctor
+intersect
+select docid, from appnt;
+
+
+8. union
+
+select docid from doctor
+union
+select docid from appnt;
+
+9. 
+
+select docid from doctor
+minus
+select docid from appnt;
+
+
+
+
+
+
+
+
+
+group by : fields (classid)
+
+select count(stdno),classid from student   
+group by classid  
+having count(stdno)>120
+
+select * from student order by classid desc,stdno asc 
+
+deptwise avg salary where avg salary>50000;
+
+select deptno,avg(salary)
+from employee
+group by deptno
+having avg(salary)>50000   
+
+
+Display details of items which are sold at least once.
+
+select * from item where itemno not in (select itemno from lineitem);
+=============
+
+Dhruvansh
+Deepang
+
+select itemno,avg(lineqty)
+from lineitem
+group by itemno
+
+select itemno from item where 
+itemprice=(select min(itemprice) from item);
+
+
+selet * from item
+order by itemname desc,itemprice;
+
+
+---------------
+
+alter table item add constraint chk_itemtype check(itemtype in ('E','C',N',F'));
+
+alter ....
+itemcolor=initcap(itemcolor)
+
+create table.....
+saledate default sysdate
+
+
+select item.itemname,item.itemtype
+from item,lineitem,sale 
+where item.itemno=lineitem.itemno and sale.saleno=lineitem.saleno and
+sale.saledate='16-jan-95';
+
+select distinct to_char(saledate,'month') from sale where saleno in (select saleno from lineitem)
+
+
+where lower(trim(itemname)) like 's%t'
+
+
+select itemtype,count(itemno)
+from item group by itemtype
+
+
+select itemno,count(itemno)
+from lineitem group by itemmo
+having count(itemno)>2;
+
+
+select itemname from item
+group by itemname having count(itemname)>1;
+
+select itemno,sum(lineqty*lineprice) from lineitem group by itemno
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

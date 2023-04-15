@@ -1,0 +1,192 @@
+insert all 
+into med_shop values (1,'Mahavir','Ahmedabad','mahavir@gmail.com',9875412366)
+into med_shop values (2,'Siddharth','Rajkot','Siddharth@gmail.com',8574596301)
+into med_shop values (3,'X-cross','Surat','X_cross@gmail.com',7865412399)
+into med_shop values (4,'Hriday','Baroda','Hriday@yahoo.co.in',6355789456)
+into med_shop values (5,'Sanjeevni','Bhavnagar','Sanjeevni@gmail.com',9102806654)
+into med_shop values (6,'Shrusti','Kutch','Shrusti_19@gmail.com',8989784561)
+into med_shop values (7,'Jain','Jamnagar','Jain.med@gmail.com',7458963210)
+into med_shop values (8,'Udgam','Ahmedabad','Udgam@yahoo.co.in',9665201478)
+into med_shop values (9,'Patel','Surat','patel.med@gmail.com',9920456879)
+select 1 from dual;
+
+insert all
+into doctor values (101,'Jeet Raghvani','Cardiologist',48,7412369858,'M')
+into doctor values (102,'Meet Javeri','Orthopedic',39,6396478964,'M')
+into doctor values (103,'Karan Shah','Cardiologist',54,999620145,'M')
+into doctor values (104,'Seema Sheth','Gynecologist',49,8844203698,'F')
+into doctor values (105,'Priyanka Chauhan','Pathologist',50,9327469749,'F')
+into doctor values (106,'Asma Sheikh','Neurologist',52,8796320145,'F')
+into doctor values (107,'Kruti Kapadia','Orthopedic',41,9630147852,'F')
+into doctor values (108,'Priynka Shah','Neurologist',48,9741025896,'M')
+into doctor values (109,'Aastha Patel','Gynecologist',39,9965478963,'F')
+select 1 from dual;
+
+insert all
+into customer values(201,'Irfan','M','Ahmedabad',9002404100,75,101)
+into customer values(202,'Muhummad','M','Rajkot',9821334560,80,102)
+into customer values(203,'Priyanka','F','Bhavnagar',9840054522,48,104)
+into customer values(204,'Pankil','M','Bharuch',9841550023,40,103)
+into customer values(205,'Kavisha','F','Baroda',9873050024,31,105)
+into customer values(206,'Dhruvi','F','Ahmedabad',9824050028,31,105)
+into customer values(207,'Payal','F','Surendranagar',9844950026,80,106)
+into customer values(208,'Priya','F','Kutch',9840059827,25,107)
+into customer values(209,'Ami','F','Surat',9842550021,57,102)
+select 1 from dual;
+insert all
+into customer values(210,'Rahul','M','Morbi',9739729841,36,108)
+into customer values(211,'Priya','F','Valsad',9555110044,25,109)
+into customer values(212,'Pallavi','F','Ahmedabad',9988778899,30,109)
+select 1 from dual;
+
+
+SQL> alter table equipment modify code number(4);
+
+Table altered.
+
+insert all
+into equipment values(1001,'Quinapril','Capsule','06-jan-18','12-dec-22',58.22,101)
+into equipment values(1002,'Paracetamol','Tablets','11-feb-19','17-sep-21',25.67,105)
+into equipment values(1003,'Beauteous Herbal','Capsule','15-sep-18','17-aug-22',589,104)
+into equipment values(1004,'Crocin','Syrup','29-may-19','13-july-22',40.22,105)
+into equipment values(1005,'Injection','Operation','13-july-18','27-march-22',92.56,102)
+into equipment values(1006,'Bandage','Cloth','29-sep-19','17-sep-24',10.00,107)
+into equipment values(1007,'Oxygen mask','Operation','17-march-18','28-jan-17',312,103)
+into equipment values(1008,'Diazepam','Drugs','25-jan-19','01-jan-22',500.25,108)
+into equipment values(1009,'Virilex','Tablets','25-aug-18','06-feb-22',311.16,109)
+select 1 from dual;
+ 
+
+
+
+
+insert all
+into supplier values('Parth','Ahmedabad',9812131647,'Parth_9@gmail.com',1)
+into supplier values('Rushil','Banglore',9101210000,'Rushil.b@gmail.com',2)
+into supplier values('Rajesh','Chennai',9800916211,'Rajesh_4@gmail.com',3)
+into supplier values('Boobie','Ahmedabad',9761876610,'Boobie_9@gmail.com',4)
+into supplier values('Vaishvik','Manali',9661251593,'Vishvik@gmail.com',5)
+into supplier values('Subh','Dehradun',9012731131,'shub_77@gmail.com',6)
+into supplier values('Virat','Rameshwaram',9142112117,'Virat_18@gmail.com',7)
+into supplier values('Sanju','Ujjain',9811917021,'Sanju_7@gmail.com',8)
+into supplier values('Rohit','Pune',9144730476,'Rohit_45@gmail.com',9)
+select 1 from dual;
+insert all
+into supplier values('Shikar','Kolkata',9998689361,'Sikhar_1@gmail.com',3)
+into supplier values('Virat','Delhi',9995656511,'Virat_9@gmail.com',7)
+select 1 from dual;
+
+insert all
+into employee values('Digvijaysinh','Rajkot','07-Sep-12',9689220330,14000,21,'M',1)
+into employee values('Aakanksha','Mumbai','01-Feb-14',8742221028,18000,23,'F',2)
+into employee values('Aishwarya','Ahmedabad','05-Dec-13',7849642379,25000,25,'F',3)
+into employee values('Shikhar','Jaipur','02-May-12',6357987420,20000,26,'M',4)
+into employee values('Vihaar','Surat','04-Jan-14',8116100153,26000,22,'M',5)
+into employee values('Sarjil','Nadiad','08-Nov-15',9327812812,7000,25,'M',6)
+into employee values('Jahnavi','Ahmedabad','06-Oct-16',9251813993,20000,24,'F',3)
+into employee values('Neel','Baroda','02-Jul-16',9702852168,15000,25,'M',8)
+into employee values('Vanshika','Indore','01-Nov-14',9901812697,25000,28,'F',9)
+select 1 from dual;
+insert all
+into employee values('Priya','Ahmedabad','01-Aug-15',9714400394,20000,32,'F',7)
+into employee values('Hetvi','Pune','05-Feb-19',7878007144,18000,21,'F',1)
+select 1 from dual;
+
+
+insert all
+into hospital values(301,'Shrey','shrey77@gmail.com',8971700697,'Ahmedabad',1)
+into hospital values(302,'Siddhi','siddhi67@gmail.com',6322800897,'Mumbai',2)  **
+into hospital values(303,'Apollo','apollo11@gmail.com',9912321912,'Surat',3)
+into hospital values(304,'Paras','paras_9@yahoo.co.in',6300315741,'Baroda',4)
+into hospital values(305,'Zydus','zydus8@gmail.com',8988556321,'Ahmedabad',1)
+into hospital values(306,'Krishna','krishna77@gmail.com',9520166967,'Nadiad',5)  **
+into hospital values(307,'City','city99@yahoo.co.in',9990078001,'Pune',6) **
+into hospital values(308,'HCG','hcg@gmail.com',7771001369,'Indore',7) **
+into hospital values(309,'Bhimsinh','bhimsinh23@gmail.com',9879010430,'Jaipur',8) **
+select 1 from dual;
+
+insert all
+into hospital values(310,'City','city89@gmail.com',7837822154,'Mumbai',9)
+into hospital values(311,'Appolo','appolo09@yahoo.co.in',7994730416,'Delhi',2)
+select 1 from dual;
+
+drop table works;
+
+Table dropped.
+
+
+update employee set city = 'Nadiad', med_shop_id = '6' mobile_no = '9901812697' ; 
+
+
+insert all
+into bill values(501,'02-Jan-17',75,'Irfan',9875412366,'Ahmedabad','Oxygen mask',312.00,1)
+into bill values(502,'04-Feb-17',25,'Priya',7865412399,'Surat','Crocin',40.22,3)
+into bill values(503,'19-Feb-17',31,'Kavisha',7865412399,'Surat','Bandage',10.00,3)
+into bill values(504,'21-Mar-17',57,'Ami',9875412366,'Ahmedabad','Injection',92.56,1)
+into bill values(505,'26-Mar-17',35,'Dhruvi',7865412399,'Surat','Beauteous Herbal',589,3)
+into bill values(506,'17-Apr-17',80,'Payal',6355789456,'Baroda','Virilex',311.16,4)
+into bill values(507,'01-May-17',80,'Muhammad',9665201478,'Ahmedabad','Oxygen Mask',312.00,8)
+into bill values(508,'16-Sep-17',40,'Pankil',7458963210,'Jamnagar','Bandage',10.00,7)
+into bill values(509,'30-Nov-17',25,'Priya',8574596301,'Rajkot','Beauteous Herbal',589,2)
+select 1 from dual;
+
+add more records**
+update bill set product = 'Injection', amount = 92.56 where bill_id = 502;
+update bill set product = 'Paracetamol', amount = 25.67 where bill_id = 503;
+update bill set product = 'Crocin', amount = 40.22 where bill_id = 505;
+update bill set product = 'Diazepam',amount =500.25 where bill_id = 506;
+update bill set product = 'Quinapril',amount =58.22 where bill_id = 508;
+insert into bill values(510,'31-Dec-17',25,'Priya',8574596301,'Rajkot','Virilex',311.16,2);
+
+
+
+
+alter table equipment add quantity int;
+
+update equipment set quantity = 25 where code = 1001;
+update equipment set quantity = 10 where code = 1003;
+update equipment set quantity = 45 where code = 1004;
+update equipment set quantity = 24 where code = 1005;
+update equipment set quantity = 35 where code = 1006;
+update equipment set quantity = 21 where code = 1007;
+update equipment set quantity = 32 where code = 1008;
+update equipment set quantity = 14 where code = 1009;
+update equipment set quantity = 22 where code = 1002;
+
+update bill set pat_name = 'Priyanka' where mobile = 7865412399;
+
+update bill set pat_name = 'Dhruvi' where mobile = 7865412399 and product = 'Beauteous Herbal';
+
+
+insert all
+into prescribe values('02-jan-17','Oxygen mask',101,201)
+into prescribe values('02-feb-17','crocin',104,203)
+into prescribe values('18-feb-17','Bandage',105,205)
+into prescribe values('21-mar-17','Injection',102,209)
+into prescribe values('25-mar-17','Beauteous Herbal',105,206)
+into prescribe values('17-apr-17','Virilex',106,207)
+into prescribe values('1-may-17','Oxygen Mask',102,202)
+into prescribe values('16-sep-17','Bandage',103,204)
+into prescribe values('29-nov-17','Beauteous Herbal',107,208)
+select 1 from dual;
+
+
+
+create table works (
+	shift varchar2(3),
+	mobile_no references employee(mobile_no) on delete set null primary key);
+
+insert all
+into works values('M',9689220330)
+into works values('M',8742221028)
+into works values('E',7849642379)
+into works values('E',6357987420)
+into works values('E',8116100153)
+into works values('N',9327812812)
+into works values('N',9251813993)
+into works values('M',9702852168)
+into works values('E',9901812697)
+select 1 from dual;
+
+add more records in this after more records are made in employee**
+
